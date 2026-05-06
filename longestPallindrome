@@ -1,0 +1,22 @@
+class Solution {
+    public int longestPalindrome(String s) {
+        int n = s.length();
+        Map<Character, Integer> freqMap = new HashMap<>();
+
+        for (char ch : s.toCharArray()) {
+            freqMap.put(ch, freqMap.getOrDefault(ch, 0) + 1);
+        }
+
+        int len = 0;
+        boolean odd = false;
+        for (int cnt : freqMap.values()) {
+            if (cnt % 2 == 0) {
+                len += cnt;
+            } else {
+                len += cnt - 1;
+                odd = true;
+            }
+        }
+        return odd ? len + 1 : len;
+    }
+}
