@@ -1,0 +1,25 @@
+class Solution {
+    public int findIntegers(int n) {
+        int[] f = new int[31];
+        f[0] = 1;
+        f[1] = 2;
+        for (int i = 2; i < 31; ++i) {
+            f[i] = f[i - 1] + f[i - 2];
+        }
+        int res = 0, k = 30, preBit = 0;
+        while (k >= 0) {
+
+            if ((n & (1 << k)) != 0) {
+                res += f[k];
+                if (preBit == 1) return res;
+                   
+                preBit = 1;
+              
+            } else {
+                preBit = 0;
+            }
+            --k;
+        }
+        return res + 1;
+    }
+}

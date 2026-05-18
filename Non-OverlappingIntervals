@@ -1,0 +1,19 @@
+class Solution {
+    public int eraseOverlapIntervals(int[][] intervals) {
+        int n = intervals.length;
+
+        Arrays.sort(intervals, Comparator.comparingDouble(o->o[1]));
+        int minCnt = 0;
+        int lastEnd = intervals[0][1];
+        ArrayList<Integer> li = new ArrayList<>();
+        minCnt=1;
+        li.add(intervals[0][0]);
+       for(int i=1; i<n; i++){
+        if(intervals[i][0] >= lastEnd){
+           minCnt++;
+           lastEnd = intervals[i][1];
+        }
+       } 
+       return n - minCnt;
+    }
+}
