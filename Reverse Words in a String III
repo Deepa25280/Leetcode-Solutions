@@ -1,0 +1,19 @@
+class Solution {
+    public String reverseWords(String s) {
+        int n = s.length();
+        StringBuilder ans = new StringBuilder();
+        int i = 0;
+
+        while(i < n){
+            int j = i;
+            while(j < n && s.charAt(j) != ' ') j++;
+            for(int k = j - 1; k >= i; k--){
+                ans.append(s.charAt(k));
+            }
+            if(j < n) ans.append(" ");
+            i = j + 1;
+        }
+
+        return ans.toString();
+    }
+}
