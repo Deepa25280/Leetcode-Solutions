@@ -1,23 +1,22 @@
 class Solution {
-    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
-        boolean vis[][] = new boolean[image.length][image[0].length];
-        helper(image, sr, sc, color, vis, image[sr][sc]);
-        return image;
+    public void dfs(int[][] image,int[][] ans,int sr, int sc,int newcolor, int iniCol,int[] delr,int[] delc){
+    ans[sr][sc]=newcolor;
+    int m = image.length;
+    int n = image[0].length;
+    for(int i=0; i<4; i++){
+        int nr = sr+delr[i];
+        int nc = sc+delc[i];
+        if(nr>=0 && nr<m && nc>=0 && nc<n && image[nr][nc]==iniCol && ans[nr][nc]!=newcolor){
+          dfs(image,ans,nr, nc, newcolor, iniCol, delr, delc);
+        } 
     }
-
-    public void helper(int[][] image, int sr, int sc, int color, boolean[][] vis, int orgColor) {
-        if (sr < 0 || sc < 0 || sr >= image.length || sc >= image[0].length || vis[sr][sc]
-                || image[sr][sc] != orgColor) {
-            return;
-        }
-        vis[sr][sc] = true;
-        image[sr][sc] = color;
-
-        helper(image, sr, sc + 1, color, vis, orgColor);
-        helper(image, sr, sc - 1, color, vis, orgColor);
-
-        helper(image, sr + 1, sc, color, vis, orgColor);
-        helper(image, sr - 1, sc, color, vis, orgColor);
-
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+      int[][] ans=image;
+      int iniCol = image[sr][sc];
+      int[] delr = {-1, 0, 1, 0};
+      int[] delc = {0, -1, 0, 1};
+      dfs(image,ans, sr, sc, color, iniCol,delr,delc); 
+      return ans;  
     }
 }
