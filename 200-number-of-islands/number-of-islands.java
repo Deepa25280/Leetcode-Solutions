@@ -1,45 +1,56 @@
 class Solution {
+    public class Pair {
+        int r;
+        int c;
+
+        Pair(int r, int c) {
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    private void bfs(char[][] grid, int[][] vis, int sr, int sc) {
+        int m = grid.length;
+        int n = grid[0].length;
+        Queue<Pair> q = new LinkedList<>();
+        q.offer(new Pair(sr, sc));
+        vis[sr][sc] = 1;
+
+        while (!q.isEmpty()) {
+            Pair cur = q.poll();
+            int nr = cur.r;
+            int nc = cur.c;
+            int[] delr = { -1, 0, 1, 0 };
+            int[] delc = { 0, -1, 0, 1 };
+            for (int i = 0; i < 4; i++) {
+                int nrow = nr + delr[i];
+                int ncol = nc + delc[i];
+                if (nrow >= 0 && nrow < m && ncol >= 0 && ncol < n && grid[nrow][ncol] == '1' && vis[nrow][ncol] == 0) {
+                    q.offer(new Pair(nrow, ncol));
+                    vis[nrow][ncol] = 1;
+
+                }
+
+            }
+
+        }
+    }
+
     public int numIslands(char[][] grid) {
-        int n=grid.length;
-        int m=grid[0].length;
-        int[][] vis = new int[n][m];
-        int cnt =0;
-        for(int i=0; i<n; i++){
-            for(int j=0; j<m; j++){
-                if(vis[i][j]==0 && grid[i][j]=='1'){
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] vis = new int[m][n];
+        int cnt = 0;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (vis[i][j] != 1 && grid[i][j] == '1') {
                     cnt++;
-                    bfs(i, j, grid, vis);
+                    bfs(grid, vis, i, j);
                 }
             }
         }
+
         return cnt;
     }
-    public void bfs(int r, int c, char[][] grid, int[][] vis){
-        
-        int n=grid.length;
-        int m=grid[0].length;
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{r, c});
-        vis[r][c] = 1;
- 
-        int[] delRow = {-1, 0, 1, 0};
-        int[] delCol = {0, 1, 0, -1};
-        while(!q.isEmpty()){
-            int curr[] = q.remove();
-            int row = curr[0];
-            int col = curr[1];
 
-            for(int i = 0; i < 4; i++){
-                int nrow = row + delRow[i];
-                int ncol = col + delCol[i];
-
-                if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && vis[nrow][ncol] == 0 && grid[nrow][ncol] == '1') {
-                vis[nrow][ncol] = 1;
-                    q.add(new int[] { nrow, ncol});
-                     
-                }
-            }
-        }
-       
-    }
 }
