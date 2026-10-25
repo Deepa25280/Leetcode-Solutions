@@ -1,53 +1,51 @@
 class Solution {
-    public void solve(char[][] board) {
-        int n = board.length;
-        int m = board[0].length;
-        int[][] vis = new int[n][m];
-
-        for (int i = 0; i < n; i++) {
-
-            if (board[i][0] == 'O' && vis[i][0] == 0) {
-                dfs(i, 0, board, vis);
-            }
-            if (board[i][m - 1] == 'O' && vis[i][m-1] == 0) {
-                dfs(i, m - 1, board, vis);
-            }
-        }
-        for (int j = 0; j < m; j++) {
-
-            if (board[0][j] == 'O' && vis[0][j] == 0) {
-                dfs(0, j, board, vis);
-            }
-            if (board[n - 1][j] == 'O' && vis[n - 1][j] == 0) {
-                dfs(n - 1, j, board, vis);
-            }
-        }
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (board[i][j] == 'O' && vis[i][j] == 0) {
-                    board[i][j] = 'X';
-                }
-            }
+    class Pair{
+        int r; int c;
+        Pair(int r, int c){
+            this.r=r;
+            this.c=c;
         }
     }
-
-    int[] delRow = { -1, 0, 1, 0 };
-    int[] delCol = { 0, 1, 0, -1 };
-
-    public void dfs(int row, int col, char[][] board, int[][] vis) {
-        vis[row][col] = 1;
-        int n = board.length;
-        int m = board[0].length;
-
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + delRow[i];
-            int newCol = col + delCol[i];
-
-            if (newRow >= 0 && newRow < n && newCol >= 0 && newCol < m && vis[newRow][newCol] == 0
-                    && board[newRow][newCol] == 'O') {
-                dfs(newRow, newCol, board, vis);
+    public void solve(char[][] board) {
+       int m=board.length;
+       int n=board[0].length;
+   int[] dr = {-1,0,1,0};
+   int[] dc ={0,-1,0,1};
+       int[][] vis = new int[m][n];
+       for(int i=0; i<m; i++){
+          if(vis[i][0]==0 && board[i][0]=='O'){
+            dfs(i, 0, vis, board, dr, dc);
+          }
+          if(vis[i][n-1]==0 && board[i][n-1]=='O'){
+            dfs(i, n-1, vis, board, dr, dc);
+          }
+       } 
+       for(int j=0; j<n; j++){
+        if(vis[0][j]==0 && board[0][j]=='O'){
+            dfs(0, j, vis, board, dr, dc);
+        }
+        if(vis[m-1][j]==0 && board[m-1][j]=='O'){
+            dfs(m-1, j, vis, board, dr, dc);
+        }
+       }
+       for(int i=0; i<m; i++){
+        for(int j=0; j<n; j++){
+            if(board[i][j]=='O' && vis[i][j]==0){
+            board[i][j]='X';
             }
         }
-
+       }
+    }
+    private void dfs(int row, int col,int[][] vis,char[][] board, int[]dr, int[] dc){
+        vis[row][col]=1;
+            int m=board.length;
+       int n=board[0].length;
+        for(int i=0; i<4; i++){
+            int nr=row+dr[i];
+            int nc=col+dc[i];
+            if(nr>=0 && nr<m && nc>=0 && nc<n && board[nr][nc]=='O' && vis[nr][nc]==0){
+                dfs(nr, nc,  vis,board, dr, dc);
+            }
+        }
     }
 }
